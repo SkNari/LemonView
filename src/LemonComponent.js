@@ -39,5 +39,14 @@ class LemonComponent{
         }
 
     }
+
+    setProps(props){
+
+        this.props = props;
+        if(typeof(this.setPropsCallback) == 'function'){
+            this.setPropsCallback();
+        }
+
+    }
 }
 

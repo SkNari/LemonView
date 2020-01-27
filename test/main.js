@@ -1,4 +1,4 @@
-var elem = Lemon.createElement(TestComponent2,null);
+var elem = Lemon.createElement(Time,{name:"fred"});
 
 //elem.componentDidMount();
 
@@ -34,8 +34,5 @@ console.log(g);
 
 LemonDOM.render(elem,document.body);
 
-console.log(LemonDOM.routage);
-
-elem.setState({oui:"oui"});
-
+//console.log(elem);
 

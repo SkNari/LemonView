@@ -6,7 +6,7 @@ class Utility{
         if(type==='string'||type==='number'||type==='bigint'||type==='boolean'||type==='undefined'||type==='symbol'||val==null){
             return true;
         }else{
-            return false;
+            return false;   
         }
 
     }

@@ -22,7 +22,7 @@ class Lemon{
 
 
              component = new type(props);
-             component.type = "lemonComponent";
+             component.type = type;
              component.isPrimitive = false;
 
         }else{

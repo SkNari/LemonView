@@ -3,11 +3,12 @@ class Time extends LemonComponent{
     constructor(props){
         super(props);
         this.state = {seconds: 0};
+        this.componentDidMount();
     }
 
     tick(){
 
-        this.state.seconds = this.state.seconds+1;
+        this.setState({seconds: this.state.seconds+1});
         console.log(this.state.seconds);
 
     }

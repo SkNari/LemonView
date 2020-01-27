@@ -1,10 +1,10 @@
 const LemonDOM = {
 
-    routage : {},
-    
-    idCount : 0,
+    routage: {},
 
-    incrementId(){
+    idCount: 0,
+
+    incrementId() {
 
         var res = this.idCount;
         this.idCount++;
@@ -13,25 +13,37 @@ const LemonDOM = {
     },
 
     render(component, target) {
-
-        target.appendChild(this.buildComponent(component));
-
-    },
-
-    addChangeListener(lemonComp,id){
-
-        lemonComp.setStateCallback = function(){ LemonDOM.update(id) };
+        
+        var el = this.buildComponent(component);
+        this.route(component,el);
+        target.appendChild(el);
 
     },
 
-    update(id){
+    addChangeListener(lemonComp, id) {
 
-        /*target = this.routage[id].physical;
-        target.parentElement.removeChild(target);*/
+        lemonComp.setStateCallback = function () { LemonDOM.update(id) };
+        lemonComp.setPropsCallback = function () { LemonDOM.update(id) };
 
     },
-    
-    buildComponent(component){
+
+    update(id) {
+        
+        
+        let oldEl,model,newEl;
+
+        model = this.routage[id].virtual;
+
+        newEl = this.buildComponent(model);
+
+        oldEl = this.routage[id].physical;
+
+        this.routage[id].physical = newEl;
+        oldEl.parentElement.replaceChild(newEl,oldEl);
+
+    },
+
+    buildComponent(component) {
 
         let node = component;
         var el;
@@ -46,33 +58,27 @@ const LemonDOM = {
                 }
                 node.children.map(child => el.appendChild(LemonDOM.buildComponent(child)));
             }
-        }else{
+        } else {
             el = LemonDOM.buildComponent(node.render());
         }
         return el;
 
     },
 
-    resetRoutage(){
+    resetRoutage() {
 
         this.routage = {};
         this.idCount = 0;
 
     },
 
-    route(component){
+    route(component,domEl) {
 
         let node = component;
-        
-        if(node.isPrimitive==false&&node.routeId==undefined){
+        let id = LemonDOM.incrementId();
+        LemonDOM.routage[id] = { virtual: node, physical: domEl };
+        LemonDOM.addChangeListener(node, id);
 
-            let id = LemonDOM.incrementId();
-            LemonDOM.routage[id] = {virtual : node, physical : el};
-            LemonDOM.route(node.render());
-            LemonDOM.addChangeListener(node,id);
-
-        }
-        
     }
 
 
