@@ -10,9 +10,8 @@ class LemonComponent{
 
     constructor(props={}){
 
-        this.type = null;
-        this.props = props;
         this.children = [];
+        this.props = props;
         this.isPrimitive = true;
         this.state = {};
         this.setStateCallback = undefined;

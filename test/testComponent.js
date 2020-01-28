@@ -2,7 +2,15 @@ class TestComponent extends LemonComponent{
 
     render(){
 
-        return Lemon.createElement("div",null,"Salut ",this.props.name,Lemon.createElement(Time,null));
+        let that = this;
+        let nameTagEl = Lemon.createElement(TestComponent2,{name:"toto"});
+        return Lemon.createElement("div",null,Lemon.createElement("input",{onchange:function(){ that.change(nameTagEl,this.value) }}),nameTagEl);
+
+    }
+
+    change(comp,value){
+
+        comp.setProps({name:value});
 
     }
 

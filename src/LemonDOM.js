@@ -20,25 +20,23 @@ const LemonDOM = {
 
     },
 
-    addChangeListener(lemonComp, id) {
+    addChangeListener(lemonComp) {
 
-        lemonComp.setStateCallback = function () { LemonDOM.update(id) };
-        lemonComp.setPropsCallback = function () { LemonDOM.update(id) };
+        lemonComp.setStateCallback = function () { LemonDOM.update(lemonComp) };
+        lemonComp.setPropsCallback = function () { LemonDOM.update(lemonComp) };
 
     },
 
-    update(id) {
+    update(lemonComp) {
         
         
-        let oldEl,model,newEl;
+        let newEl;
+        let oldEl;
 
-        model = this.routage[id].virtual;
+        oldEl = lemonComp.physicalLink;
 
-        newEl = this.buildComponent(model);
+        newEl = this.buildComponent(lemonComp);
 
-        oldEl = this.routage[id].physical;
-
-        this.routage[id].physical = newEl;
         oldEl.parentElement.replaceChild(newEl,oldEl);
 
     },
@@ -60,6 +58,8 @@ const LemonDOM = {
             }
         } else {
             el = LemonDOM.buildComponent(node.render());
+            node.physicalLink = el;
+            LemonDOM.addChangeListener(node, el);
         }
         return el;
 

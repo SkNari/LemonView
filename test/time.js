@@ -9,7 +9,7 @@ class Time extends LemonComponent{
     tick(){
 
         this.setState({seconds: this.state.seconds+1});
-        console.log(this.state.seconds);
+        //console.log(this.state.seconds);
 
     }
 

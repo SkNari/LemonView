@@ -1,12 +1,8 @@
-var elem = Lemon.createElement(Time,{name:"fred"});
+var elem = Lemon.createElement(TestComponent,{name:"Lucas"});
+
+//console.log(elem);
 
 //elem.componentDidMount();
-
-g = {toto:[],titi:"huhu"};
-
-function toto(){
-
-};
 
 /*console.log(g.toto);
 Object.defineProperty(g, 'toto', {
