@@ -33,7 +33,21 @@ class Lemon{
 
         }
 
-        component.children = children;
+        for(let key in children){
+
+            let child = children[key];
+
+            if(Array.isArray(child)){
+
+                for(key in child){
+                    component.addChild(child[key]);
+                }
+
+            }else{
+                component.addChild(child);
+            }
+
+        }
 
         return component;
 

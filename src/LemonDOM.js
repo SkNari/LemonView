@@ -49,12 +49,16 @@ const LemonDOM = {
         if (node.isPrimitive != false) {
             if (typeof node != 'object') {
                 el = document.createTextNode(node);
+            }else if(node.isState){
+                el = document.createTextNode(node.value);
             } else {
                 el = document.createElement(node.type);
                 for (let key in node.props) {
                     el[key] = node.props[key];
                 }
                 node.children.map(child => el.appendChild(LemonDOM.buildComponent(child)));
+                node.physicalLink=el;
+                LemonDOM.addChangeListener(node, el);
             }
         } else {
             el = LemonDOM.buildComponent(node.render());

@@ -1,4 +1,4 @@
-class LemonComponent{
+class LemonComponent {
 
     type;
     props;
@@ -8,42 +8,92 @@ class LemonComponent{
     static isLemonComponent = true;
     setStateCallback;
 
-    constructor(props={}){
+    constructor(props = {}) {
 
+        this.props = {};
         this.children = [];
-        this.props = props;
+        for(let key in props){
+            if(props[key].isState==true){
+                this.props[key] = props[key].value;
+                props[key].users[key] = this;
+            }else{
+                this.props[key] = props[key];
+            }
+        }
         this.isPrimitive = true;
         this.state = {};
         this.setStateCallback = undefined;
 
     }
 
-    addChild(child){
+    addChild(child) {
 
         this.children.push(child);
 
     }
 
-    render(){
+    render() {
 
         return this;
 
     }
 
-    setState(state){
+    setState(state) {
 
-        this.state = state;
-        if(typeof(this.setStateCallback) == 'function'){
-            this.setStateCallback();
+        let childUpdated = false;
+
+        if (this.stateIsSet == undefined) {
+
+            this.state = {};
+
+            for(let key in state){
+
+                this.state[key] = {value:state[key],users:{},isState:true}
+
+            }
+
+            this.stateIsSet = true;
+
+        } else {
+            for(let key in this.state){
+                if(state[key]!=undefined){
+                    this.state[key].value = state[key];
+                    let children = this.state[key].users;
+                    for(let childKey in children){
+                        let props = {};
+                        props[childKey] = this.state[key].value;
+                        children[childKey].setProps(props);
+                        childUpdated = true;
+                    }  
+                }
+            }
+            if (typeof (this.setStateCallback) == 'function'&&!childUpdated) {
+
+                this.resetUsers();
+                this.setStateCallback();
+
+            }
         }
 
     }
 
-    setProps(props){
+    setProps(props) {
 
-        this.props = props;
-        if(typeof(this.setPropsCallback) == 'function'){
+        for (let key in this.props) {
+
+            this.props[key] = props[key]!=undefined?props[key]:this.props[key];
+
+        }
+        if (typeof (this.setPropsCallback) == 'function') {
             this.setPropsCallback();
+        }
+
+    }
+
+    resetUsers(){
+
+        for(let key in this.state){
+            this.state[key].users = {};
         }
 
     }

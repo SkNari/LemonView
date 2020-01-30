@@ -1,7 +1,6 @@
-var elem = Lemon.createElement(TestComponent,{name:"Lucas"});
+var elem = Lemon.createElement(ToDoApp,null);
 
-//console.log(elem);
-
+//elem.setState({name:"tutu"});
 //elem.componentDidMount();
 
 /*console.log(g.toto);
